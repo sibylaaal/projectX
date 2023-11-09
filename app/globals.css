@@ -1,0 +1,293 @@
+
+.ql-editor h1 {
+  font-size: 2rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  /* Add other custom styles for H1 here */
+}
+
+.ql-editor h2 {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 1rem;
+  /* Add other custom styles for H2 here */
+}
+
+/* Style lists differently */
+.ql-editor ul {
+  list-style-type: disc;
+  /* Add other custom styles for unordered lists here */
+}
+
+.ql-editor ol {
+  list-style-type: decimal;
+  /* Add other custom styles for ordered lists here */
+}
+
+.ql-editor{
+  margin:0;
+  padding: 0 ;
+  height: 33px
+}
+/* Add any other custom styles for Quill editor content here */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  font-family: 'DM Sans', sans-serif;
+}
+
+label{
+  font-weight: 600;
+
+}
+.national{
+  position: relative;
+  left: 60%;
+}
+
+li:hover{
+  transition: .5s;
+ border-radius: none;
+  border-color: none;
+  padding-left: 30px;
+}
+.text-mycolor{
+  color: #00000093;
+}
+.bg-mycolor{
+  background-color: #3949AB;
+}
+.li:hover{
+  color:#3949AB;
+  transition: .5s;
+  background-color: #ffffff;
+  border-radius: 10px;
+  border-color: none;
+}
+.slides-container {
+	-ms-overflow-style: none; /* Internet Explorer 10+ */
+	scrollbar-width: none; /* Firefox */
+}
+.slides-container::-webkit-scrollbar {
+	display: none; /* Safari and Chrome */
+}
+
+.h1{
+  font: 2px;
+}
+
+form{
+  transition: .5s ease-in-out ;
+  
+}
+.link{
+  text-decoration: underline;
+  color: #3949AB;
+  
+}
+.link:hover{
+  color: #468aff;
+  cursor: pointer;
+}
+.delete:hover{
+  color: rgba(255, 61, 61, 0.705);
+  cursor: pointer;
+  transition: .5s;
+}
+
+.hover1:hover{
+  background-color: rgba(82, 255, 82, 0.329);
+}
+.hover2:hover{
+  background-color: rgba(255, 82, 82, 0.329);
+}
+
+
+
+.grixx{
+
+
+  display: grid;
+  grid-template-columns: repeat(2,1fr);
+  gap: 20px;
+position: relative;
+left:-40%
+;
+transition: .5s;
+}
+.grixxx{
+
+
+  display: grid;
+  grid-template-columns: repeat(3,1fr);
+  gap: 20px;
+position: relative;
+left:-110%
+;
+transition: .5s;
+}
+
+@media screen and (max-width: 600px) {
+
+  .loading2{
+    position: absolute;
+    top: 40%;
+    left:20%
+  }
+  .x{
+    position: relative;
+    left:0%
+  }
+  .logo3{
+    display: none;
+  }
+
+  .logo4{
+    height: 20vw;
+    }
+    
+
+    .national{
+      display: none;
+    }
+
+
+
+
+
+
+  .grixx{
+
+
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    left:11%;
+  transition: .5s;
+  }
+  .grixxx{
+
+transition: .5s;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    position: relative;
+    left:11%;
+  
+  }
+
+
+}
+.x{
+  position: relative;
+  left:20%
+}
+
+
+
+.radio input ~ label {
+  background-color: rgb(233, 225, 225);
+  color: rgb(158, 146, 146);
+}
+.radio input:checked ~ label {
+  background-color: #3949AB;
+  transition: .5s;
+  color: white;
+}
+.radio input{
+  opacity: 0%;
+}
+
+
+.iconL{
+  position: relative;
+  top: 70%;
+
+}
+.iconL:hover{
+  position: relative;
+  top: 55%;
+  transition: .5s;
+
+}
+.btnprev:hover{
+
+  background-color: #3949AB;
+  color: white;
+  transition: .5s;
+}
+.nextprev:hover{
+transition: .5s;
+  background-color: #3949AB;
+  color: white;
+
+}
+.line{
+  background-color: #3949AB;
+  height: 3px;
+  transition: .5s;
+ 
+}
+label{
+  transition: .5s ease-in-out;
+}
+.end{
+  margin-top: 8.5vw;
+  margin-left: 2vw;
+}
+.end:hover{
+  margin-top: 7vw;
+transition: .5s ease-in-out;
+}
+
+.logo{
+  height: 150px;
+  width: 100%;
+}
+.logo2{
+  height: 200px;
+  width: 100%;
+}
+.logo3{
+  height: 4vw;
+  width: auto;
+  padding: 10px;
+}
+.logo4{
+height:20vw;
+}
+
+
+.loading{
+  position: absolute;
+  top: 40%;
+  left: 63%;
+}
+.loading2{
+  position: absolute;
+  top: 40%;
+  left: 48%;
+}
+
+
+.ItemBottom{
+  margin-top: -100px;
+}
+
+
+/* quill-editor.css */
+/* Style headings differently */
+
+
+
+
+
+
+
+a{
+  color: none;
+}
