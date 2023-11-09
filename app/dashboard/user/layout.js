@@ -22,8 +22,13 @@ const   isSidebarOpen=useSelector(state=>state.Side.isOpened)
 const   loading=useSelector(state=>state.Side.Loading)
 const user = useSelector((state) => state.Auth.user);
 
-const userX = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('USERX')) : null;
-
+useEffect(() => {
+  // Check if localStorage is available (client side)
+  if (typeof window !== 'undefined' && window.localStorage) {
+    const userX = JSON.parse(localStorage.getItem('USERX'));
+    console.log('Data from localStorage:', userX);
+  }
+}, []);
 
   
   
