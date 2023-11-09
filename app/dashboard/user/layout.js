@@ -22,7 +22,7 @@ const   isSidebarOpen=useSelector(state=>state.Side.isOpened)
 const   loading=useSelector(state=>state.Side.Loading)
 const user = useSelector((state) => state.Auth.user);
 
-const userX= JSON.parse(localStorage.getItem('USERX'))
+const userX = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('USERX')) : null;
 
 
   

@@ -30,7 +30,7 @@ const user = useSelector((state) => state.Auth.user);
   
     const authStatus = useSelector((state) => state.Auth.isLogged);
     const router = useRouter();
-  const userX= JSON.parse(localStorage.getItem('USERX'))
+    const userX = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('USERX')) : null;
 
     useEffect(() => {
 if(userX){
