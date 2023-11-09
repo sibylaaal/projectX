@@ -22,23 +22,25 @@ const   isSidebarOpen=useSelector(state=>state.Side.isOpened)
 const   loading=useSelector(state=>state.Side.Loading)
 const user = useSelector((state) => state.Auth.user);
 
-useEffect(() => {
   // Check if localStorage is available (client side)
-  if (typeof window !== 'undefined' && window.localStorage) {
-    const userX = JSON.parse(localStorage.getItem('USERX'));
-    console.log('Data from localStorage:', userX);
-  }
-}, []);
+
 
   
   
     const authStatus = useSelector((state) => state.Auth.isLogged);
     const router = useRouter();
   
-    useEffect(() => {
-      if(userX){
+    useEffect(() => { 
+      
+      if (typeof window !== 'undefined' && window.localStorage) {
+    const userX = JSON.parse(localStorage.getItem('USERX'));
+    console.log('Data from localStorage:', userX);
+
+    if(userX){
         dispatch(login(userX))
       }
+  }
+      
       if (!authStatus || user.authorities[0].authority=='ADMIN' ||user.authorities[0].authority=="advisor" ) {
         router.push('/login');
       }

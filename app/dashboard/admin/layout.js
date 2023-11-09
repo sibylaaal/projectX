@@ -30,17 +30,24 @@ const user = useSelector((state) => state.Auth.user);
   
     const authStatus = useSelector((state) => state.Auth.isLogged);
     const router = useRouter();
+
+    // Check if localStorage is available (client side)
+  
+
+      
     useEffect(() => {
-      // Check if localStorage is available (client side)
-      if (typeof window !== 'undefined' && window.localStorage) {
+
+    if (typeof window !== 'undefined' && window.localStorage) {
         const userX = JSON.parse(localStorage.getItem('USERX'));
         console.log('Data from localStorage:', userX);
-      }
-    }, []);
-    useEffect(() => {
 if(userX){
   dispatch(login(userX))
 }
+      }
+
+
+
+
 
       if (!authStatus || user.authorities[0].authority=='' ||user.authorities[0].authority=="advisor"||user.authorities[0].authority=="user") {
         router.push('/login');
