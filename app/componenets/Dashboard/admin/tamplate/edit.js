@@ -42,14 +42,21 @@ export default function  EditTamplate(props){
     e.preventDefault();
 
     fetch(`http://localhost:8081/api/admin/update_template/${props.id}`, {
+      
       method: 'PUT',
       body: JSON.stringify({ 
         templateName:e.target.name.value
         ,templateDescription:e.target.description.value
         ,cost:e.target.prix.value,
-        category:e.target.category.value,
        
       }), headers: {
+        'Content-Type': 'application/json',
+      },
+    })
+    fetch(`http://localhost:8081/api/admin/update_category/${props.id}/${e.target.category.value}`, {
+      
+      method: 'PUT',
+   headers: {
         'Content-Type': 'application/json',
       },
     })
@@ -121,15 +128,15 @@ defaultValue={CurerentInputs.cost}
                   id="grid-state"
                 >
                   {
-                    CurerentInputs.category? (
+                    CurerentInputs.category&& 
                                <option value={CurerentInputs.category.category}>{CurerentInputs.category.category}</option>
 
-                    ):(null)
+                   
                   }
                   {Categorie &&
   Categorie.map((cate) => (
     
-    <option key={cate.id} value={cate.category}>
+    <option key={cate.id} value={cate.id}>
       {cate.category}
     </option>
   ))}

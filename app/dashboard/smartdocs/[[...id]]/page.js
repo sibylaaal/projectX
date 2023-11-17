@@ -9,7 +9,7 @@ export default function Doc(){
 
 return(
     <>
-    
+        
     <Header/>
     <CreateCase/>
     

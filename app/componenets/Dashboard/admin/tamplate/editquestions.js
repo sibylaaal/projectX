@@ -87,7 +87,7 @@ const handleSubmit = (e) => {
       questionText: e.target.question.value,
       valueType: e.target.type.value,
       descriptionDetails: e.target.details.value,
-      Description: e.target.descr.value,
+      description: e.target.descr.value,
       texte:TextDoc,
       choices:formData
     }),

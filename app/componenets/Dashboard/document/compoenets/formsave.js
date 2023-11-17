@@ -1,12 +1,28 @@
 'use client'
 
+import { useSelector } from "react-redux";
+
 
 
 
 
 
 export default function FormSave(props) {
-console.log(  props.inputs)
+
+
+  const userid=useSelector((state=>state.Auth.user.userId))
+
+  const generatePdf = () => {
+    fetch(`http://localhost:8081/api/suser/generate/${userid}`, {
+      method: "GET"
+    })
+      .then((res) => res.json())
+      .then((res) => {
+        console.log(res)
+       // Pass the documentId to the next then block
+      })
+     
+  };
   return (
     <>
       <div className="flex justify-center">
@@ -68,16 +84,15 @@ console.log(  props.inputs)
 
        
 
-          <div className="">
+       <div className=" ">
 
-            <div className="flex justify-between m-5">          <button onClick={props.back} className={`p-3 text-gray-800 bg-gray-200 font-semibold rounded-tl-lg rounded-br-md btnprev  p-4 `}>prev</button>
+<div className="flex  justify-center  m-5 space-x-4 ">          
+<button onClick={props.back} className={`text-gray-800 bg-gray-200 font-semibold rounded-tl-lg rounded-br-md btnprev p-4 `}>prev</button>
+<button onClick={generatePdf}  className={`text-gray-800 bg-gray-200 font-semibold rounded-tl-lg rounded-br-md nextprev p-4 `}>next</button>
 
-              <button  className="shadow bg-mycolor hover:bg-mycolor focus:shadow-outline focus:outline-none text-white font-bold py-1 px-4 rounded" type="submit">
-                submit
-              </button>
-            </div>
-            <div className="md:w-2/3"></div>
-          </div>
+</div>
+<div className="md:w-2/3"></div>
+</div>
         </form>
       </div>
     </>

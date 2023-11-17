@@ -16,20 +16,12 @@ export default function AdminCategories() {
   const [deleted, setdeleted] = useState(false);
   const [curentcate, setcurentcate] = useState(null);
   const [editid, seteditid] = useState(null);
-  const   isLoading=useSelector(state=>state.Side.Loading)
-  const dispatch=useDispatch()
-  useEffect(() => {
-  dispatch(off())
-  }, [])
+ 
   
   return (
     <>
 
-{
-  isLoading?
-  (<LoadingCompo/>)
-  :
-  (
+
 <>
 
 {
@@ -76,8 +68,7 @@ export default function AdminCategories() {
       ('')
     }
 </>
-  )
-}
+ 
 
       </>
   )

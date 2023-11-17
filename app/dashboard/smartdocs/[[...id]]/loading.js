@@ -1,6 +1,6 @@
 
 
-import LoadingCompo from "../../.././componenets/home/loading"
+import LoadingCompo from "../../../componenets/home/loading"
 
 
 

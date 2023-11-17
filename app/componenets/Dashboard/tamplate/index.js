@@ -13,7 +13,7 @@ import Skeleton from "../../skeleton";
 export default function TamplateCompo(){
 	const dispatch=useDispatch()
   const router=useRouter()  
-
+ const [docid, setdocid] = useState();
 	useEffect(() => {
 		 dispatch(off())
 
@@ -43,14 +43,22 @@ export default function TamplateCompo(){
 
 
 
-
-        const createdoc = (id) => {
-          fetch(`http://localhost:8081/api/suser/createDocument/${id}`,{
-            method:"POST"
+       const createdoc = (id) => {
+        fetch(`http://localhost:8081/api/suser/createDocument/${id}`, {
+          method: "POST"
+        })
+          .then((res) => res.json())
+          .then((res) => {
+            setdocid(res.documentId);
+            return res.documentId; // Pass the documentId to the next then block
           })
-            .then((res) => res.json())
-            .then((res) =>res);
-        }
+          .then((documentId) => router.push(`/dashboard/smartdocs/${id}/${documentId}`))
+          .catch((error) => {
+            // Handle errors here
+            console.error('Error creating document:', error);
+          });
+      };
+      
    
         
        
@@ -187,7 +195,7 @@ const toggleCategory = (e) => {
 
  { data?  data.map((data)=>( 
 	 <div className="relative mx-auto w-full p-5">
-	<Link href={`/dashboard/smartdocs/${data.id}`} onClick={()=>{
+	<div onClick={()=>{
     
 createdoc(data.id)
     dispatch(on())}} className="relative inline-block duration-300 ease-in-out transition-transform transform hover:-translate-y-2 w-full">
@@ -235,7 +243,7 @@ createdoc(data.id)
 		  </div>
 		</div>
 	  </div>
-	</Link>
+	</div>
   </div>
 
  )):

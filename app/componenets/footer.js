@@ -153,7 +153,7 @@ export default function Footer() {
           </div>
         </div>
         <div className="pt-4 pt-6 mt-10 text-center text-gray-500 border-t border-gray-100">
-          © 2023 Landmark. All rights reserved.
+          © 2023 <a href={'https://www.iker.ma/'}> made by Iker.ma</a> 
         </div>
         <div className="pt-2 pt-4 mt-2 text-center text-gray-600 border-t border-gray-100">
         </div>

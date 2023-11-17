@@ -5,7 +5,7 @@ import { useState } from "react";
 
 
 
-export default function  TreeCheckBooks(props){
+export default function  TreeCheckBooks(props,{value}){
     
     return(
 
@@ -20,6 +20,7 @@ export default function  TreeCheckBooks(props){
 
 <div className="inline-block radio">
        <input
+       checked={props.value1==value}
          name="data3"
          type="radio"
          id="B1"
@@ -42,6 +43,8 @@ export default function  TreeCheckBooks(props){
 
      <div className="inline-block radio">
        <input
+        checked={props.value2==value}
+
          name="data3"
          type="radio"
          id="D1"

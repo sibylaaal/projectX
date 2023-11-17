@@ -1,11 +1,8 @@
 'use client'
 
-import { SwissFranc } from "lucide-react"
 import Link from "next/link"
 import { useDispatch, useSelector } from "react-redux"
-import { on } from "../redux/actions/SidebarActions"
 import { useEffect, useState } from "react"
-import { useRouter } from "next/navigation"
 
 
 
@@ -61,7 +58,7 @@ export default function Aside(props) {
       }
     });
     setLinks(updatedLinks);
-    dispatch(on());
+  
   };
 
   return (

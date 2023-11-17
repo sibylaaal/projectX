@@ -9,7 +9,6 @@ import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
 
-
 export default function Questions(props){
  const [Questions, setQuestions] = useState([])
  const [Added, setAdded] = useState(false)
@@ -98,9 +97,8 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
 
-
-
-  fetch(`http://localhost:8081/api/admin/create_question/${props.TemplateId}`, {
+if(formData.length<=0){
+    fetch(`http://localhost:8081/api/admin/create_question/${props.TemplateId}`, {
     
     method: 'POST',
     body: JSON.stringify({
@@ -109,7 +107,6 @@ const handleSubmit = (e) => {
       valueType:e.target.type.value,
       description:e.target.Description.value,
       texte:TextDoc,
-      choices:formData,
       descriptionDetails:e.target.DescriptionDetails.value
      
 
@@ -128,7 +125,7 @@ const handleSubmit = (e) => {
         valueType:e.target.type.value,
         template:{id:props.TemplateId},
         texte:TextDoc,
-        Checkbox:formData
+        checkbox:formData
       })
          setselectedId({  id:null,
           questionText:"",
@@ -139,6 +136,49 @@ const handleSubmit = (e) => {
         })
          fetchTamplates()
     });
+}else{
+  fetch(`http://localhost:8081/api/admin/create-question-with-choices/${props.TemplateId}`, {
+    
+  method: 'POST',
+  body: JSON.stringify({
+    
+    questionText: e.target.question.value,
+    valueType:e.target.type.value,
+    description:e.target.Description.value,
+    texte:TextDoc,
+    choices:formData,
+    descriptionDetails:e.target.DescriptionDetails.value
+   
+
+   }),
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+  .then((res) => res.json())
+  .then((res) => {
+    console.log(res);
+    setAdded(true)
+    setAdd(false)
+    console.log({
+      questionText: e.target.question.value,
+      valueType:e.target.type.value,
+      template:{id:props.TemplateId},
+      texte:TextDoc,
+      checkbox:formData
+    })
+       setselectedId({  id:null,
+        questionText:"",
+        valueType:"",
+        template:{id:0},
+        Texte:'',
+     
+      })
+       fetchTamplates()
+  });
+}
+
+
 };
 
 
@@ -249,7 +289,7 @@ const handleChange = (value) => {
  Questions.length!=0?   Questions.map((qst,index)=>(
        <>
     
-    <div className="flex   sm:col-1 space-between p-3">
+    <div key={index} className="flex   sm:col-1 space-between p-3">
   <div
   className=" p-5  w-full whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
 > 
@@ -483,7 +523,7 @@ const handleChange = (value) => {
           <span className='text-3xl font-bold text-mycolor py-5 mb-5'>Add Question</span>
       <div className="flex flex-wrap -mx-3 mb-6 mt-10">
         <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Question
           </label>
           <input name="question" className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="how much children you have?"/>
@@ -492,14 +532,14 @@ const handleChange = (value) => {
 
 
         <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Descrptions
           </label>
           <textarea id="text" name="Description" rows="4" class="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
         </div>
 
  <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
           Details
           </label>
           <textarea id="text" name="DescriptionDetails" rows="4" class="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
@@ -510,14 +550,14 @@ const handleChange = (value) => {
            * 
         
         <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Title
           </label>
           <input name="Title" className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" type="text" placeholder="how much children you have?"/>
         </div>
         
         <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Text
           </label>
           <textarea id="text" name="Text" rows="4" class="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
@@ -531,7 +571,7 @@ const handleChange = (value) => {
 
       </div>
       <div className="w-full  px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Your Content
           </label>
 
@@ -545,7 +585,7 @@ const handleChange = (value) => {
   <div className="flex align-center " >
 
 
-        <label className="block uppercase tracking-wide text-mycolor text-xs font-bold  mt-5" for="grid-first-name">
+        <label className="block uppercase tracking-wide text-mycolor text-xs font-bold  mt-5" htmlFor="grid-first-name">
           checkbox
               
      
@@ -599,7 +639,7 @@ const handleChange = (value) => {
       <div className="flex flex-wrap -mx-3 mb-2">
      
         <div className="w-full px-3 mb-6 mt-5 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-state">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-state">
             Type
           </label>
           <div className="relative">

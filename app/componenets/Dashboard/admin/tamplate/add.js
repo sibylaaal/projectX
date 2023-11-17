@@ -2,8 +2,29 @@
 import { useEffect, useState } from "react";
 import Questions from "./questions";
 
-
 export default function AddTemplate(props) {
+  /** 
+  const generatePDF = async () => {
+    const browser = await puppeteer.launch();
+    const page = await browser.newPage();
+    const name = 'John Doe';
+  const age = 25;
+    // Your HTML content with dynamic values
+    const htmlContent = `<h1>Hello ${name}!</h1><p>Your age is ${age} years.</p>`;
+  
+    // Set the content and wait for rendering
+    await page.setContent(htmlContent);
+    await page.waitForTimeout(1000); // Adjust the waiting time as needed
+  
+    // Generate PDF
+    const pdfBuffer = await page.pdf({ format: 'Letter' });
+  
+    await browser.close();
+  
+    return pdfBuffer;
+  };
+  */
+  // Example usage
 
   
   /**const [Categories, setCategories] = useState(null)
@@ -26,7 +47,8 @@ export default function AddTemplate(props) {
     // Use a callback function to ensure you have the updated state
     fetch('http://localhost:8081/api/admin/create_template', {
       method: 'POST',
-      body: JSON.stringify({ templateName:e.target.name.value
+      body: JSON.stringify({ 
+        templateName:e.target.name.value
         ,templateDescription:e.target.description.value
         ,cost:e.target.prix.value,
        }),
@@ -36,6 +58,7 @@ export default function AddTemplate(props) {
     })
       .then((res) => res.json())
       .then((res) => {
+        
         console.log(res);
         props.add(false)
         
@@ -51,7 +74,6 @@ export default function AddTemplate(props) {
     // Now you can access the updated state
   };
   
-
   return (
     <>
       <form onSubmit={(e) => handleSubmit(e)} className="Ani">
@@ -91,7 +113,7 @@ export default function AddTemplate(props) {
                 </label>
                
        
-<textarea id="message" name="description" rows="4" class="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
+<textarea id="message" name="description" rows="4" className="block p-2.5 mb-5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="Write your thoughts here..."></textarea>
 
               
               </div>

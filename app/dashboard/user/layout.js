@@ -39,11 +39,14 @@ const user = useSelector((state) => state.Auth.user);
     if(userX){
         dispatch(login(userX))
       }
-  }
+      else{
+        if (!authStatus || user.authorities[0].authority=='ADMIN' ||user.authorities[0].authority=="advisor" ) {
+           router.push('/login');
+         }
+     }
       
-      if (!authStatus || user.authorities[0].authority=='ADMIN' ||user.authorities[0].authority=="advisor" ) {
-        router.push('/login');
-      }
+  }   
+     
     }, [authStatus, router]);
   
     return authStatus  ? (

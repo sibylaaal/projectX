@@ -4,6 +4,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Menu, Transition } from '@headlessui/react'
 import { ChevronDownIcon } from '@heroicons/react/20/solid'
 import SuccessAlert from "../../../../componenets/successalert"
+import Skeleton from '../../../skeleton'
 export default function Categories(props){
 
 
@@ -190,7 +191,7 @@ export default function Categories(props){
              </td>
            </tr>
 
-)):('')
+)):(<Skeleton/>)
 
 }
 

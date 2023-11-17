@@ -24,11 +24,7 @@ const [Userdata, setUser] = useState(
         email:""
     }
 );
-const   isLoading=useSelector(state=>state.Side.Loading)
-const dispatch=useDispatch()
-useEffect(() => {
-dispatch(off())
-}, [])
+
   const fetchUsers = () => {
     fetch('http://localhost:8081/api/admin/all_users')
       .then((res) => res.json())
@@ -103,9 +99,7 @@ dispatch(off())
   };
 
   return (
-    isLoading ? (
-      <LoadingCompo />
-    ) : (
+
       <div>
         {edit ? (
        <form  onSubmit={(e)=>handleSubmit(e)} className="Ani">      
@@ -114,19 +108,19 @@ dispatch(off())
 
      <div className="flex flex-wrap -mx-3 mb-6 mt-10">
        <div className="w-full px-3 mb-6 md:mb-0">
-         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
            firstname
          </label>
          <input defaultValue={Userdata.firstname}  className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" name="firstname" type="text" />
        </div>
        <div className="w-full px-3 mb-6 md:mb-0">
-         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
            lastname
          </label>
          <input defaultValue={Userdata.lastname}  className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" name="lastname" type="text" />
        </div>
        <div className="w-full px-3 mb-6 md:mb-0">
-         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+         <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
            email
          </label>
          <input defaultValue={Userdata.email} disabled   className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" name="email" type="text" />
@@ -137,7 +131,7 @@ dispatch(off())
    
      <div className="flex flex-wrap -mx-3 mb-2">
     
-  
+     
     
      </div>
    
@@ -233,7 +227,7 @@ dispatch(off())
           </div>
         )}
       </div>
-    )
+ 
   );
 }
 

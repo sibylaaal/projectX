@@ -26,20 +26,13 @@ const [TemplateId, setTemplateId] = useState(null);
 const [questions, setquestions] = useState(false)
 const [Editquestions, setEditquestions] = useState(false)
 const [EditquestionId, setEditquestionId] = useState(null);
-const   isLoading=useSelector(state=>state.Side.Loading)
-const dispatch=useDispatch()
-  useEffect(() => {
-  dispatch(off())
-  }, [])
+
 
   return (
     <>
 
-{
-  isLoading?
-  (<LoadingCompo/>)
-  :
-  (<>
+
+<>
   
 
 {
@@ -91,8 +84,8 @@ const dispatch=useDispatch()
       :
       ('')
     }
-  </>)
-}
+  </>
+
 
  
       </>

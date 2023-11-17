@@ -42,6 +42,10 @@ const user = useSelector((state) => state.Auth.user);
         console.log('Data from localStorage:', userX);
 if(userX){
   dispatch(login(userX))
+}else{
+  if (!authStatus || user.authorities[0].authority=='' ||user.authorities[0].authority=="advisor"||user.authorities[0].authority=="user") {
+router.push('/login');
+}
 }
       }
 
@@ -49,9 +53,7 @@ if(userX){
 
 
 
-      if (!authStatus || user.authorities[0].authority=='' ||user.authorities[0].authority=="advisor"||user.authorities[0].authority=="user") {
-        router.push('/login');
-      }
+    
 
 
     }, [authStatus, router]);

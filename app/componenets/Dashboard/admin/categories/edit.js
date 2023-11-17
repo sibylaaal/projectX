@@ -43,7 +43,7 @@ export default function Edit(props){
 
       <div className="flex flex-wrap -mx-3 mb-6 mt-10">
         <div className="w-full px-3 mb-6 md:mb-0">
-          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" for="grid-first-name">
+          <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             category
           </label>
           <input defaultValue={props.curent} onChange={(e) => setCategory(e.target.value)}  className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white" id="grid-first-name" name="category" type="text" placeholder="Jane"/>

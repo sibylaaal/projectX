@@ -12,13 +12,13 @@ import { useSelector } from "react-redux"
 
 export default  function LoadingCompo(){
 
-  const   isLoading=useSelector(state=>state.Side.Loading)
 
   
     return(
-        <div className={`flex justify-center items-center py-5 ${isLoading?  'loading':'loading2'} `}>
+        <div className={`flex justify-center`}>
     <div
-      className="inline-block h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+ 
+      className="inline-block centerLoading h-5 w-5 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
       role="status"
     >
       <span
