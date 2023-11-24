@@ -34,7 +34,6 @@ const handleInputChange = (index, fieldName, value) => {
 
 const removeRow = (index,e) => {
   e.preventDefault()
-  // Remove a row from the form data
   const updatedData = [...formData];
   updatedData.splice(index, 1);
   setFormData(updatedData);
@@ -138,18 +137,17 @@ if(formData.length<=0){
     });
 }else{
   fetch(`http://localhost:8081/api/admin/create-question-with-choices/${props.TemplateId}`, {
-    
+
   method: 'POST',
   body: JSON.stringify({
     
     questionText: e.target.question.value,
     valueType:e.target.type.value,
     description:e.target.Description.value,
-    texte:TextDoc,
-    choices:formData,
-    descriptionDetails:e.target.DescriptionDetails.value
-   
+    descriptionDetails:e.target.DescriptionDetails.value,
 
+          texte:TextDoc,
+    choices:formData,
    }),
   headers: {
     'Content-Type': 'application/json',

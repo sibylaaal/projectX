@@ -1,16 +1,17 @@
 
 'use client'
+import dynamic from 'next/dynamic';
+
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useState } from 'react';
-import Aside from '../../componenets/home/aside';
-import Header from '../../componenets/home/header';
-import { Toggle } from '../../componenets/redux/actions/SidebarActions';
-import { User } from 'lucide-react';
-import { login } from '../../componenets/redux/actions/AuthActions';
 
+const Aside = dynamic(() => import('../../componenets/home/aside'));
+const Header = dynamic(() => import('../../componenets/home/header'));
+const Toggle = dynamic(() => import('../../componenets/redux/actions/SidebarActions'));
+const User = dynamic(() => import('lucide-react'));
+const login = dynamic(() => import('../../componenets/redux/actions/AuthActions'));
 
 const ProtectedLayout = ({ children }) => {
 

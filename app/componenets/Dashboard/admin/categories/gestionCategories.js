@@ -1,13 +1,10 @@
 
 'use client'
 
-import Edit from "./edit"
+import dynamic from "next/dynamic"
 import Tabelcategories from "./tabelcategories"
-import { useEffect, useState } from "react"
-import Add from "./add"
-import { useDispatch, useSelector } from "react-redux"
-import { off } from "../../../redux/actions/SidebarActions"
-import LoadingCompo from "../../../home/loading"
+import {  useState } from "react"
+
 export default function AdminCategories() {
   const [edit, setedit] = useState(false)
   const [add, setadd] = useState(false)
@@ -17,7 +14,10 @@ export default function AdminCategories() {
   const [curentcate, setcurentcate] = useState(null);
   const [editid, seteditid] = useState(null);
  
-  
+  const Edit = dynamic(() => import('./edit'));
+  const Add = dynamic(() => import('./add'));
+
+
   return (
     <>
 

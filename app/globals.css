@@ -439,3 +439,13 @@ a{
 
 
 }
+
+
+.navhover:hover{
+ 
+  border: none;
+  border-bottom: 2px #4F46E5 solid;
+  transition: .5s;
+}
+
+

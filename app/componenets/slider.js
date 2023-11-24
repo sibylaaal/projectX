@@ -33,7 +33,7 @@ export default function Slider() {
   return (
     <> 
  <div id="app" className="max-w-screen-lg mx-auto px-4 md:px-8 py-12 transition-all duration-500 ease-linear">
-      <h1 className="font-cabinetGrotesk text-3xl lg:text-4xl font-bold mb-12 leading-tight">Tailwind CSS Carousel</h1>
+      <h1 className="font-cabinetGrotesk text-3xl lg:text-4xl font-bold mb-12 leading-tight">Examples Documents</h1>
       <div className="relative">
         <div ref={slidesContainerRef} className="slides-container h-72 flex snap-x snap-mandatory overflow-hidden overflow-x-auto space-x-2 rounded scroll-smooth before:w-[45vw] before:shrink-0 after:w-[45vw] after:shrink-0 md:before:w-0 md:after:w-0">
           {Array.from({ length: 10 }).map((_, index) => (

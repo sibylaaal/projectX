@@ -1,16 +1,10 @@
 
 'use client'
 
-import EditTamplate from "./tamplate/edit"
+import dynamic from "next/dynamic"
 import Questions from "./tamplate/questions"
-import AddTamplate from "./tamplate/add"
 import Tabeltamplate from "./tamplate/tabetamplet"
-import { useEffect, useState } from "react"
-import EditQuestions from "./tamplate/editquestions"
-import { useDispatch, useSelector } from "react-redux"
-import { off } from "../../redux/actions/SidebarActions"
-import AssigneCategory from "./tamplate/assigne"
-import LoadingCompo from "../../home/loading"
+import {  useState } from "react"
 export default function AdminTamplate() {
 const [edit, setedit] = useState(false)
 const [add, setadd] = useState(false)
@@ -27,6 +21,12 @@ const [questions, setquestions] = useState(false)
 const [Editquestions, setEditquestions] = useState(false)
 const [EditquestionId, setEditquestionId] = useState(null);
 
+const EditQuestions = dynamic(() => import('./tamplate/editquestions'));
+const EditTamplate = dynamic(() => import('./tamplate/edit'));
+
+const AddTamplate = dynamic(() => import('./tamplate/add'));
+
+const AssigneCategory = dynamic(() => import('./tamplate/assigne'));
 
   return (
     <>

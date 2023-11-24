@@ -4,13 +4,12 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
 
-import { useState } from 'react';
-import Aside from '../../componenets/home/aside';
-import Header from '../../componenets/home/header';
 import { Toggle } from '../../componenets/redux/actions/SidebarActions';
-import LoadingCompo from '../../componenets/home/loading';
 import { login } from '../../componenets/redux/actions/AuthActions';
+import dynamic from 'next/dynamic';
 
+const Aside=dynamic(()=>import("../../componenets/home/aside"))
+const Header=dynamic(()=>import("../../componenets/home/header"))
 
 const ProtectedLayout = ({ children }) => {
 
@@ -19,10 +18,8 @@ const dispatch = useDispatch();
 
 
 const   isSidebarOpen=useSelector(state=>state.Side.isOpened)
-const   loading=useSelector(state=>state.Side.Loading)
 const user = useSelector((state) => state.Auth.user);
 
-  // Check if localStorage is available (client side)
 
 
   

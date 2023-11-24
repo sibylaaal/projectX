@@ -1,7 +1,6 @@
 'use client'
 
 import { useState } from "react"
-import Categories from "./tabelcategories";
 
 export default function Add(props){
 

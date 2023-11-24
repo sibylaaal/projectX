@@ -4,7 +4,6 @@ import { useDispatch, useSelector } from "react-redux";
 import { login } from "../redux/actions/AuthActions";
 import Link from 'next/link'
 import { useRouter } from "next/navigation";
-import LoadingCompo from "../home/loading";
 
 
 export default function Login() {
@@ -98,7 +97,29 @@ const [change, setchange] = useState(false)
       const data = await response.json();
       data.user?       setSubmitStatus({ isSuccess: true, isError: false }):''
       dispatch(login(data.user))
-
+      switch (data.user.authorities[0].authority) {
+        case '':
+         router.push('/dashboard/user');
+         
+          break;
+          case 'user':
+          router.push('/dashboard/user');
+          break;
+          case 'ADMIN':
+            router.push('/dashboard/admin');
+            break;
+            case 'advisor':
+            router.push('/dashboard/advisor');
+            break;
+  
+  
+  
+  
+        default:
+          router.push('/dashboard/user');
+  
+          break;
+       }
       setLoading(false)
       console.log("Response:", data);
     } catch (error) {

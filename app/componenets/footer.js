@@ -1,6 +1,6 @@
 export default function Footer() {
     return (
-        <footer className="px-4 pt-12 pb-8 text-white bg-white border-t border-gray-200">
+        <footer className="px-4 pt-12 pb-8 text-white bg-gray-800 border-t border-gray-200">
         <div className="container flex flex-col justify-between max-w-6xl px-4 mx-auto overflow-hidden lg:flex-row">
           <div className="w-full pl-12 mr-4 text-left lg:w-1/4 sm:text-center sm:pl-0 lg:text-left">
             <a
@@ -9,7 +9,7 @@ export default function Footer() {
             >
               
             </a>
-            <p className="mt-6 mr-4 text-base text-gray-500">
+            <p className="mt-6 mr-4 text-base text-white">
               Crafting the next-level of user experience and engagement.
             </p>
           </div>
@@ -21,7 +21,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   Features
                 </a>
@@ -29,7 +29,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   Integrations
                 </a>
@@ -37,7 +37,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   Pricing
                 </a>
@@ -45,7 +45,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   FAQ
                 </a>
@@ -58,7 +58,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   Privacy
                 </a>
@@ -66,7 +66,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#_"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
+                  className="inline-block px-3 py-2 text-white no-underline hover:text-gray-600"
                 >
                   Terms of Service
                 </a>
@@ -74,31 +74,11 @@ export default function Footer() {
             </ul>
             <ul className="flex flex-col w-full p-0 font-medium text-left text-gray-700 list-none">
               <li className="inline-block px-3 py-2 mt-5 font-bold tracking-wide text-gray-800 uppercase md:mt-0">
-                TailwindCSS
+                contact us
               </li>
+           
               <li>
-                <a
-                  href="https://devdojo.com/tailwindcss/components"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-                >
-                  Tailwind Components
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://devdojo.com/tailwindcss/templates"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-                >
-                  Tailwind Templates
-                </a>
-              </li>
-              <li>
-                <a
-                  href="https://devdojo.com/tails"
-                  className="inline-block px-3 py-2 text-gray-500 no-underline hover:text-gray-600"
-                >
-                  Tails
-                </a>
+            
               </li>
             </ul>
             <div className="flex flex-col w-full text-gray-700">
@@ -152,7 +132,7 @@ export default function Footer() {
             </div>
           </div>
         </div>
-        <div className="pt-4 pt-6 mt-10 text-center text-gray-500 border-t border-gray-100">
+        <div className="pt-4 pt-6 mt-10 text-center text-white border-t border-gray-100">
           © 2023 <a href={'https://www.iker.ma/'}> made by Iker.ma</a> 
         </div>
         <div className="pt-2 pt-4 mt-2 text-center text-gray-600 border-t border-gray-100">

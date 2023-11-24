@@ -1,4 +1,3 @@
-
 'use client'
 
 import { useEffect, useState } from 'react';
@@ -8,7 +7,7 @@ import 'react-quill/dist/quill.snow.css';
 export default function EditQuestions(props){
 
 const [TextDoc, setTextDoc] = useState('');
-const [formData, setFormData] = useState([]); // State to manage form data
+const [formData, setFormData] = useState([]); 
 const [checkbox, setcheckbox] = useState(false);
 const [data, setdata] = useState({
   questionText:"",
@@ -41,7 +40,10 @@ DescriptionDetails:res.descriptionDetails
       }
     )
   setTextDoc(res.texte)
-  setFormData(res.choices);  
+  if(res.choices){
+      setFormData(res.choices);  
+
+  }
   });
 }
 useEffect(() => {
@@ -49,7 +51,6 @@ useEffect(() => {
 }, []);
 
 const handleInputChange = (index, fieldName, value) => {
-  // Update the form data when an input field changes
   const updatedData = [...formData];
   updatedData[index][fieldName] = value;
   setFormData(updatedData);
@@ -67,7 +68,6 @@ const handleCheckbox=(e)=>{
   }
 const removeRow = (index,e) => {
   e.preventDefault()
-  // Remove a row from the form data
   const updatedData = [...formData];
   updatedData.splice(index, 1);
   setFormData(updatedData);
@@ -87,7 +87,7 @@ const handleSubmit = (e) => {
       questionText: e.target.question.value,
       valueType: e.target.type.value,
       descriptionDetails: e.target.details.value,
-      description: e.target.descr.value,
+      Description: e.target.descr.value,
       texte:TextDoc,
       choices:formData
     }),

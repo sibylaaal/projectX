@@ -1,13 +1,12 @@
 'use client'
 
 import Link from "next/link"
-import { useDispatch, useSelector } from "react-redux"
+import {  useSelector } from "react-redux"
 import { useEffect, useState } from "react"
 
 
 
-export default function Aside(props) {
-  const dispatch = useDispatch();
+export default function Aside() {
   const isSidebarOpen = useSelector((state) => state.Side.isOpened);
   const user = useSelector((state) => state.Auth.user);
 

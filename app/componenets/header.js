@@ -8,19 +8,46 @@ import Link from 'next/link';
 
 
 const navigation = [
-  { name: "Home", href: "#", current: true },
-  { name: "Services", href: "#", current: false },
-  { name: "Pricing", href: "#", current: false },
-  { name: "Contact", href: "#", current: false },
+  { name: "Home", href: "/", current: true,icon:"M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" },
+  { name: "Templates", href: "#", current: false,icon:"M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" },
+  { name: "Categoroies", href: "#", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
+  { name: "privacy", href: "/privacy", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
+  { name: "Conditions", href: "/conditions", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
+
 ];
+
 
 function classNames(...classes) {
   return classes.filter(Boolean).join(' ');
 }
 
 export default function Navbar() {
-  const dispatch = useDispatch();
 
+
+
+  const [Templates, setTemplates] = useState([]);
+  const [Categories, setCategories] = useState([]);
+
+
+  
+  
+  ////////////////////////////
+/** 
+  const fetchTamplates = () => {
+    fetch('http://localhost:8081/api/suser/user_all_templates')
+      .then((res) => res.json())
+      .then((res) => setTemplates(res));
+  }
+  const fetchCategories = () => {
+    fetch('http://localhost:8081/api/admin/all_categories')
+      .then((res) => res.json())
+      .then((res) => setCategories(res));
+  }
+useEffect(()=>{fetchTamplates(),fetchCategories()},[Templates,Categories])*/
+///////////////////////////////////
+
+  const dispatch = useDispatch();
+const [clicked, setclicked] = useState(false);
   const [status, setStatus] = useState(false);
   const [myUser, setMyUser] = useState({});
   const [loading, setloading] = useState(false)
@@ -36,11 +63,19 @@ export default function Navbar() {
     setMyUser(user);
   }, [authStatus, user]);
 
+
+  const toggle = (e) => {
+    setclicked(
+      !clicked
+    );
+  };
+  
+
   return (
     <>
 
 {
-  !authStatus? (<div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-3.5 sm:before:flex-1">
+  !authStatus? (<div className="relative isolate flex items-center gap-x-6 overflow-hidden bg-gray-50 px-6 py-2.5 sm:px-2 sm:before:flex-1">
       <div
         className="absolute left-[max(-7rem,calc(50%-52rem))] top-1/2 -z-10 -translate-y-1/2 transform-gpu blur-2xl"
         aria-hidden="true"
@@ -103,20 +138,17 @@ export default function Navbar() {
           
       </div>
       <div className="flex flex-1 justify-end">
-        <button type="button" className="-m-3 p-3 focus-visible:outline-offset-[-4px]">
-          <span className="sr-only">Dismiss</span>
-          <XMarkIcon className="h-5 w-5 text-gray-900" aria-hidden="true" />
-        </button>
+       
       </div>
     </div>):('')
 }
 
-    <Disclosure as="nav" className="xl:text-gray-700 p-5 ">
+    <Disclosure as="nav" className="xl:text-gray-700 p-2 sticky top-0 z-50 bg-white shadow-lg absolute inset-0 bg-white opacity-75  ">
       {({ open }) => (
         <>
-          <div className="mx-auto max-w-7xl px-2 sm:px-6 lg:px-8">
+          <div className="mx-auto max-w-7xl px-2 w-full sm:px-6 lg:px-8   ">
             <div className="relative flex h-16 items-center justify-between">
-              <div className="left-0 flex items-center sm:hidden">
+              <div className="left-0 text-center flex items-center sm:hidden">
                 {/* Mobile menu button */}
                 <Disclosure.Button className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400 hover:bg-indigo-600 hover:text-white focus:outline-none focus:ring-2 focus:ring-inset focus:ring-white">
                   <span className="absolute -inset-0.5" />
@@ -128,24 +160,29 @@ export default function Navbar() {
                   )}
                 </Disclosure.Button>
               </div>
-              <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
-                <div className="flex flex-shrink-0 items-center">
-                  <img src="/logo3.svg" className='logo3 ' alt="" />
+              <div className="flex flex-1 items-center justify-center text-center">
+                <div className="flex text-center flex-shrink-0 items-center">
                
-                <div className="hidden sm:ml-6 sm:block">
-                  <div className="flex space-x-4">
+                <div className="hidden text-center sm:ml-6 sm:block">
+                  <div className="flex  text-center space-x-4">
                     {navigation.map((item) => (
+                      <div  className='navhover border-b-2 m-3 flex  p-3'>
+                      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                      <path strokeLinecap="round" strokeLinejoin="round" d={item.icon} />
+                    </svg>
+                    
                       <Link
+                      onClick={()=>toggle()}
                         key={item.name}
                         href={item.href}
                         className={classNames(
-                         "text-mycolor text-3xxl font-semibold"
+                         "text-gray-800 text-3xxl text-center  "
                             
                         )}
                         aria-current={item.current ? 'page' : undefined}
                       >
                         {item.name}
-                      </Link>
+                      </Link></div>
                     ))}
                   </div>
                 </div> </div>
@@ -241,7 +278,7 @@ export default function Navbar() {
                 ) : (  <>   
 
                   <Link onClick={()=>setloading(true)} href="/login"> {/* Replace with your login route */}
-                    <div className="m-5 rounded-md  text-white bg-indigo-600  px-3.5 py-2.5 text-sm font-semibold shadow-sm focus:outline-visible focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
+                    <div className="m-5 rounded-md flex text-white bg-indigo-600  px-3.5 py-2.5 text-sm font-semibold shadow-sm focus:outline-visible focus:ring-2 focus:ring-white focus:ring-offset-2 focus:ring-offset-gray-800">
                       
      {
       loading?
@@ -256,8 +293,15 @@ export default function Navbar() {
       </div>
     </div>)
       :
-      ('Login')
+      <>
+      <span>Login</span>
+      <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
+</svg>   
+      </>
+ 
      }
+
 
 
 
@@ -272,7 +316,7 @@ export default function Navbar() {
             </div>
           </div>
           <Disclosure.Panel className="sm:hidden">
-            <div className="space-y-1 px-2 pb-3 pt-2">
+            <div className="space-y-1 text-center px-2 pb-3 pt-2">
               {navigation.map((item) => (
                 <Disclosure.Button
                   key={item.name}
@@ -290,9 +334,98 @@ export default function Navbar() {
               ))}
             </div>
           </Disclosure.Panel>
-        </>
+          {
+            clicked?
+            (          <div
+  x-show="open"
+
+  className="absolute left-60    hidden sm:block w-full md:max-w-screen-sm md:w-screen  mt-2 origin-top-right"
+>
+  <div className="px-2 pt-2 pb-4 bg-white  shadow-lg dark-mode:bg-gray-700">
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
+     
+
+
+      <a
+        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+        href="#"
+      >
+        <div className="bg-indigo-600 text-white rounded-lg p-3">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            className="md:h-6 md:w-6 h-4 w-4"
+          >
+            <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <p className="font-semibold">Appearance</p>
+          <p className="text-sm">Easy customization</p>
+        </div>
+      </a>
+      <a
+        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+        href="#"
+      >
+        <div className="bg-indigo-600 text-white rounded-lg p-3">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            className="md:h-6 md:w-6 h-4 w-4"
+          >
+            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <p className="font-semibold">Comments</p>
+          <p className="text-sm">Check your latest comments</p>
+        </div>
+      </a>
+      <a
+        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+        href="#"
+      >
+        <div className="bg-indigo-600 text-white rounded-lg p-3">
+          <svg
+            fill="none"
+            stroke="currentColor"
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            strokeWidth={2}
+            viewBox="0 0 24 24"
+            className="md:h-6 md:w-6 h-4 w-4"
+          >
+            <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
+            <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
+          </svg>
+        </div>
+        <div className="ml-3">
+          <p className="font-semibold">Analytics</p>
+          <p className="text-sm">Take a look at your statistics</p>
+        </div>
+      </a>
+    </div>
+  </div>
+</div>
+       )
+            :
+            (null)
+          }
+ </>
       )}
     </Disclosure>
+  
+
     </>
 
   );
