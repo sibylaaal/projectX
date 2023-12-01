@@ -7,6 +7,7 @@ import { useRouter } from "next/navigation";
 
 
 export default function Login() {
+  const AuthStatus = useSelector((state) => state.Auth.isLogged);
 
   const [user, setUser] = useState({
     email: "",
@@ -41,6 +42,44 @@ export default function Login() {
   const userData = useSelector((state) => state.Auth.user);
  
 
+
+
+
+
+
+
+  useEffect(() => {
+
+    if (typeof window !== 'undefined' && window.localStorage) {
+        const userX = JSON.parse(localStorage.getItem('USERX'));
+        console.log('Data from localStorage:', userX);
+if(userX){
+  dispatch(login(userX))
+}else{
+  if (!AuthStatus || userData.authorities[0].authority=='' ||userData.authorities[0].authority=="advisor"||userData.authorities[0].authority=="user") {
+router.push('/login');
+}
+}
+      }
+
+
+
+
+
+    
+
+
+    }, [AuthStatus, router]);
+
+
+
+
+
+
+
+
+
+
   useEffect(() => {
     if (statu) {
       localStorage.setItem("USERX",JSON.stringify(userData))
@@ -70,7 +109,6 @@ export default function Login() {
     }
   }, [statu]);
   // Use useSelector to access the Redux state
-  const AuthStatus = useSelector((state) => state.Auth.isLogged);
 const [change, setchange] = useState(false)
   useEffect(()=>{  
 

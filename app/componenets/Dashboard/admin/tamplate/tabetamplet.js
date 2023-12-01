@@ -68,7 +68,7 @@ const [open, setOpen] = useState(false)
           props.deleteds(false)
           props.uodateds(false)
           props.setAssigned(false)
-        }, 2000);
+        }, 1000);
       }, [data]);
     return(
         <>

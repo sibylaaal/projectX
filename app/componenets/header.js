@@ -10,7 +10,7 @@ import Link from 'next/link';
 const navigation = [
   { name: "Home", href: "/", current: true,icon:"M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25" },
   { name: "Templates", href: "#", current: false,icon:"M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m2.25 0H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z" },
-  { name: "Categoroies", href: "#", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
+  { name: "Categories", href: "#", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
   { name: "privacy", href: "/privacy", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
   { name: "Conditions", href: "/conditions", current: false,icon:"M10.5 6h9.75M10.5 6a1.5 1.5 0 11-3 0m3 0a1.5 1.5 0 10-3 0M3.75 6H7.5m3 12h9.75m-9.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-3.75 0H7.5m9-6h3.75m-3.75 0a1.5 1.5 0 01-3 0m3 0a1.5 1.5 0 00-3 0m-9.75 0h9.75" },
 
@@ -25,14 +25,13 @@ export default function Navbar() {
 
 
 
-  const [Templates, setTemplates] = useState([]);
-  const [Categories, setCategories] = useState([]);
+  const [Templates, setTemplates] = useState(null);
+  const [Categories, setCategories] = useState(null);
 
-
+const [clikedname, setclikedname] = useState('');
   
   
-  ////////////////////////////
-/** 
+  //////////////////////////// atleast(5)
   const fetchTamplates = () => {
     fetch('http://localhost:8081/api/suser/user_all_templates')
       .then((res) => res.json())
@@ -43,7 +42,7 @@ export default function Navbar() {
       .then((res) => res.json())
       .then((res) => setCategories(res));
   }
-useEffect(()=>{fetchTamplates(),fetchCategories()},[Templates,Categories])*/
+useEffect(()=>{fetchTamplates(),fetchCategories()},[])
 ///////////////////////////////////
 
   const dispatch = useDispatch();
@@ -64,10 +63,11 @@ const [clicked, setclicked] = useState(false);
   }, [authStatus, user]);
 
 
-  const toggle = (e) => {
-    setclicked(
-      !clicked
-    );
+  const toggle = (name) => {
+
+   name==='Categories'||'Templates' ? setclicked(!clicked):null
+    
+setclikedname(name)
   };
   
 
@@ -172,7 +172,7 @@ const [clicked, setclicked] = useState(false);
                     </svg>
                     
                       <Link
-                      onClick={()=>toggle()}
+                      onClick={()=>toggle(item.name)}
                         key={item.name}
                         href={item.href}
                         className={classNames(
@@ -345,75 +345,82 @@ const [clicked, setclicked] = useState(false);
     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
 
      
+{
+  clikedname==='Categories'?
+  ( 
+    
+    Categories.map((el)=>(
+  <a
+    className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+    href="#"
+  >
+    <div className="bg-indigo-600 text-white rounded-lg p-3">
+      <svg
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        viewBox="0 0 24 24"
+        className="md:h-6 md:w-6 h-4 w-4"
+      >
+        <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      </svg>
+    </div>
+    <div className="ml-3">
+      <p className="font-semibold">{el.category}</p>
+    </div>
+  </a>
+
+    ))
+    
+  
+  
+  )
+  :
+  (null)
+}
 
 
-      <a
-        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-        href="#"
+
+
+{
+  clikedname==='Templates'?
+  ( 
+    
+    Templates.map((el)=>(
+  <a
+    className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
+    href="#"
+  >
+    <div className="bg-indigo-600 text-white rounded-lg p-3">
+      <svg
+        fill="none"
+        stroke="currentColor"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        strokeWidth={2}
+        viewBox="0 0 24 24"
+        className="md:h-6 md:w-6 h-4 w-4"
       >
-        <div className="bg-indigo-600 text-white rounded-lg p-3">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            className="md:h-6 md:w-6 h-4 w-4"
-          >
-            <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="font-semibold">Appearance</p>
-          <p className="text-sm">Easy customization</p>
-        </div>
-      </a>
-      <a
-        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-        href="#"
-      >
-        <div className="bg-indigo-600 text-white rounded-lg p-3">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            className="md:h-6 md:w-6 h-4 w-4"
-          >
-            <path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="font-semibold">Comments</p>
-          <p className="text-sm">Check your latest comments</p>
-        </div>
-      </a>
-      <a
-        className="flex flex row items-start rounded-lg bg-transparent p-2 dark-mode:hover:bg-gray-600 dark-mode:focus:bg-gray-600 dark-mode:focus:text-white dark-mode:hover:text-white dark-mode:text-gray-200 hover:text-gray-900 focus:text-gray-900 hover:bg-gray-200 focus:bg-gray-200 focus:outline-none focus:shadow-outline"
-        href="#"
-      >
-        <div className="bg-indigo-600 text-white rounded-lg p-3">
-          <svg
-            fill="none"
-            stroke="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            viewBox="0 0 24 24"
-            className="md:h-6 md:w-6 h-4 w-4"
-          >
-            <path d="M11 3.055A9.001 9.001 0 1020.945 13H11V3.055z" />
-            <path d="M20.488 9H15V3.512A9.025 9.025 0 0120.488 9z" />
-          </svg>
-        </div>
-        <div className="ml-3">
-          <p className="font-semibold">Analytics</p>
-          <p className="text-sm">Take a look at your statistics</p>
-        </div>
-      </a>
+        <path d="M5 3v4M3 5h4M6 17v4m-2-2h4m5-16l2.286 6.857L21 12l-5.714 2.143L13 21l-2.286-6.857L5 12l5.714-2.143L13 3z" />
+      </svg>
+    </div>
+    <div className="ml-3">
+      <p className="font-semibold">{el.templateName}</p>
+    </div>
+  </a>
+
+    ))
+    
+  
+  
+  )
+  :
+  (null)
+}
+    
+    
     </div>
   </div>
 </div>

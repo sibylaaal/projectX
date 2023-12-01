@@ -14,9 +14,15 @@ export default function TamplateCompo(){
 	const dispatch=useDispatch()
   const router=useRouter()  
  const [docid, setdocid] = useState();
+ const [Categories, setCategories] = useState([]);
+ const fetchCategories = () => {
+  fetch('http://localhost:8081/api/admin/all_categories')
+    .then((res) => res.json())
+    .then((res) => setCategories(res));
+}
 	useEffect(() => {
 		 dispatch(off())
-
+     fetchCategories()
 	  }, []); 
     const [Tamplate, setTamplate] = useState({
         All:{
@@ -161,29 +167,31 @@ const toggleCategory = (e) => {
     <p className="text-gray-700 text-xl pl-5 pt-5">Categories</p>
 
       <div className="flex align-center p-5  overflow-x-auto">
+
+
       <button 
       
       onClick={(e)=>toggleCategory(e)}
       name="All"
       className={` text-gray-800 text-xll cursor-pointer font-medium mr-2 px-2.5 py-0.5 rounded  ${Tamplate.All.isChosed? 'bg-mycolor text-white':'dark:bg-mycolor dark:text-gray-300 bg-gray-100 '}`}>All(0)</button>
-      <button 
+      
+      
+        {
+          Categories&&Categories.map((category)=>(
+            <button 
             
             onClick={(e)=>toggleCategory(e)}
-            name="HR"
-      className={` text-gray-800 text-xll cursor-pointer font-medium mr-2 px-2.5 py-0.5 rounded  ${Tamplate.HR.isChosed? 'bg-mycolor text-white':'dark:bg-mycolor dark:text-gray-300 bg-gray-100 '}`}>HR(0)</button>
-      <button 
+
+
+           
+      className={` text-gray-800 text-xll cursor-pointer font-medium mr-2 px-2.5 py-0.5 rounded  '}`}>{category.category}(0)</button>
+     
+          ))
+        }
       
-            
-      onClick={(e)=>toggleCategory(e)}
-      name="Familly"
       
-      className={` text-gray-800 text-xll cursor-pointer font-medium mr-2 px-2.5 py-0.5 rounded  ${Tamplate.Familly.isChosed? 'bg-mycolor text-white':'dark:bg-mycolor dark:text-gray-300 bg-gray-100 '}`}>Familly(0)</button>
-      <button 
-            
-            onClick={(e)=>toggleCategory(e)}
       
-         name="Personaldata"
-      className={` text-gray-800 text-xll cursor-pointer font-medium mr-2 px-2.5 py-0.5 rounded  ${Tamplate.Personaldata.isChosed? 'bg-mycolor text-white':'dark:bg-mycolor dark:text-gray-300 bg-gray-100 '}`}>Personaldata(0)</button>
+      
       </div>
 
 

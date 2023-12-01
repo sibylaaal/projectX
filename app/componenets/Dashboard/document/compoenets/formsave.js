@@ -13,14 +13,34 @@ export default function FormSave(props) {
   const userid=useSelector((state=>state.Auth.user.userId))
 
   const generatePdf = () => {
-    fetch(`http://localhost:8081/api/suser/generate/${userid}`, {
+    fetch(`http://localhost:8081/api/suser/generate-pdf/${props.documentId}/${props.templateid}`, {
       method: "GET"
     })
-      .then((res) => res.json())
-      .then((res) => {
-        console.log(res)
-       // Pass the documentId to the next then block
-      })
+    .then(response => response.blob())
+    .then(blobData => {
+      // Do something with the blobData
+      const blobUrl = URL.createObjectURL(blobData);
+
+      // Create a link element
+      const downloadLink = document.createElement('a');
+      downloadLink.href = blobUrl;
+      downloadLink.download = `document_${props.documentId}.pdf`; // Set desired file name
+
+      // Append the link to the body
+      document.body.appendChild(downloadLink);
+
+      // Simulate a click on the link to trigger download
+      downloadLink.click();
+
+      // Clean up - remove the link and revoke the blob URL
+      document.body.removeChild(downloadLink);
+      URL.revokeObjectURL(blobUrl);
+    }
+
+   
+      
+      
+      )
      
   };
   return (

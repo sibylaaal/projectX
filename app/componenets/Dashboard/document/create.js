@@ -25,14 +25,14 @@ const router = useRouter();
   const { id: paramsId} = useParams();
   const [currentStep, setCurrentStep] = useState(0);
   const fetchquestions = () => {
-    fetch(`http://localhost:8081/api/suser/all_questions_by_template/${paramsId[0]}`)
+    fetch(`http://localhost:8081/api/suser/suser_find_questions_by_template/${paramsId[0]}`)
       .then((res) => res.json())
       .then((res) => setquestions(res));
   }
   
   useEffect(() => {
 fetchquestions()
-  }, [paramsId,currentStep]);
+  }, []);
 
 
   const [responses, setResponses] = useState([]);
@@ -65,7 +65,8 @@ fetchquestions()
         {
            documentId:paramsId[1],
           questionId:questions[currentStep].id,
-          value:responses[currentStep].answer
+          value:responses[currentStep].answer,
+          selectedChoiceId:responses[currentStep].choiceid
         
         
         }
@@ -118,7 +119,8 @@ const handleBacktoedit=()=>{
     newResponses[step] = {
       id: questions[currentStep].id,
       answer: event.target.value,
-      type:questions[currentStep].valueType,
+      choiceid:questions[currentStep].valueType.length>10? event.target.id:null,
+      type:questions[currentStep].valueType.length>10? 'checkbox':questions[currentStep].valueType,
       question: questions[currentStep].questionText,
     };
     setResponses(newResponses);
@@ -208,11 +210,16 @@ const handleBacktoedit=()=>{
 
 
               {isdone ? (  
-              <FormSave functionn={HandelSubmit} back={handleBacktoedit}   inputs={responses} 
+              <FormSave documentId={paramsId[1]} templateid={paramsId[0]}    templa functionn={HandelSubmit} back={handleBacktoedit}   inputs={responses} 
                 />
               ) : (
                 (() => {
-                  switch (questions[currentStep].valueType) {
+                  if(questions[currentStep].valueType.length>10){
+
+  return <TwinBoxesCheck value={responses[currentStep]? responses[currentStep].answer:''} functionn={handleResponseChange} question={questions[currentStep].questionText} description={questions[currentStep].description} descriptionDetails={questions[currentStep].descriptionDetails} choices={questions[currentStep].valueType}   />
+
+                  }else{
+                           switch (questions[currentStep].valueType) {
                     case 'Textaria':
                       return <TextAria value={responses[currentStep]? responses[currentStep].answer:''} functionn={handleResponseChange}  question={questions[currentStep].questionText}  description={questions[currentStep].description}  descriptionDetails={questions[currentStep].descriptionDetails}     />;
                       break
@@ -222,9 +229,7 @@ const handleBacktoedit=()=>{
                     case 'range':
                       return <Rangeers value={responses[currentStep]? responses[currentStep].answer:''}  functionn={handleResponseChange} question={questions[currentStep].questionText} min={questions[currentStep].min} max={questions[currentStep].max}/>
                       break
-                    case 'checkbox':
-                      return <TwinBoxesCheck value={responses[currentStep]? responses[currentStep].answer:''} functionn={handleResponseChange} question={questions[currentStep].questionText} description={questions[currentStep].description} descriptionDetails={questions[currentStep].descriptionDetails} choices={questions[currentStep].choices}   />;
-                      break
+              
                 
                     case 'number':
                       return <Number value={responses[currentStep]? responses[currentStep].answer:0} functionn={handleResponseChange}  description={questions[currentStep].description} descriptionDetails={questions[currentStep].descriptionDetails} question={questions[currentStep].questionText}/>;
@@ -233,6 +238,8 @@ const handleBacktoedit=()=>{
                     default:
                       return null; 
                   }
+                  }
+           
                 })()
 
 

@@ -133,6 +133,13 @@ transition: .5s;
   margin-top: 20%;
     }
 @media screen and (max-width: 600px) {
+
+
+
+
+
+
+
   .centerLoading{
 margin-top: 50%;
   }
@@ -410,14 +417,12 @@ a{
 @media screen and (min-width: 1024px) {
 
 .ol{
-  height:40vw;
   padding:5vw;
   margin-top: -4vw;
   border-radius: 10px 10px 10px 10px;
 }
 .topbox{
   margin-top: -4vw;
-  height: 40vw;
   border-radius: 10px 10px 10px 10px;
 }
 

@@ -1,9 +1,8 @@
 'use client'
 
 import { useEffect, useState } from 'react';
-import ReactQuill from 'react-quill';
-import 'react-quill/dist/quill.snow.css';
-
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
 export default function EditQuestions(props){
 
 const [TextDoc, setTextDoc] = useState('');
@@ -89,7 +88,6 @@ const handleSubmit = (e) => {
       descriptionDetails: e.target.details.value,
       Description: e.target.descr.value,
       texte:TextDoc,
-      choices:formData
     }),
     headers: {
       'Content-Type': 'application/json',
@@ -141,13 +139,13 @@ const handleSubmit = (e) => {
   
          </div>
 
-  <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-last-name">
+  <label className="block ml-3 uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-last-name">
     question 1
   </label>
   <div className=" space-between ">
     <input
     defaultValue={data.questionText}
-      className="appearance-none block mb-5 w-full  bg-gray-200 text-mycolor border border-gray-200 -xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
+      className="appearance-none block mb-5 w-full m-3  bg-gray-200 text-mycolor border border-gray-200 -xl py-3 px-4 leading-tight focus:outline-none focus:bg-white focus:border-gray-500"
       id="grid-last-name"
       type="text"
 name="question"
@@ -182,71 +180,39 @@ name="question"
             Your Content
           </label>
 
-          <ReactQuill value={TextDoc} onChange={handleChange} modules={modules} formats={formats} />
 
+          <SunEditor
+setContents={TextDoc}   
+
+
+showToolbar={true}
+        onChange={handleChange}
+        setDefaultStyle="height: auto"
+        setOptions={{
+          buttonList: [
+            [
+              "bold",
+              "underline",
+              "italic",
+              "strike",
+              "list",
+              "align",
+              "fontSize",
+              "formatBlock",
+              "table",
+              "image"
+            ]
+          ]
+        }}
+      />
           <div>
      
     </div>
 
         </div>
-        {
-      checkbox||formData.length>0?  (
-<div className="w-full  px-3 mb-6 md:mb-0">
-  <div className="flex align-center " >
-
-
-        <label className="block uppercase tracking-wide text-mycolor text-xs font-bold  mt-5" for="grid-first-name">
-          checkbox
-              
-     
-</label>
-   <button type="" onClick={(e)=>addRow(e)}        className={`block w-10 bg-mycolor  text-white  rounded-xl font-semibold  m-4`}
-    >+</button>
-    </div>
-          
-{
-
-
-
-<>
-<div>
-      {formData.map((row, index) => (
-        <div key={index}>
-          <label>Label</label>
-          <input
-            name="choice"
-            type="text"
-            className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            value={row.choice}
-            onChange={(e) => handleInputChange(index, 'choice', e.target.value)}
-          />
-          <label>Default Value</label>
-          <input
-            name="relatedTexte"
-            type="text"
-            className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            value={row.relatedTexte}
-            onChange={(e) => handleInputChange(index, 'relatedTexte', e.target.value)}
-          />
-          <button className="block w-10 bg-mycolor  text-white  rounded-xl font-semibold  m-4" onClick={(e) => removeRow(index,e)}>-</button>
-        </div>
-      ))}
-      {/* You can submit the form data as needed */}
-    </div>
-</>
  
-
-}
-
-
-
-        </div>
-
-      ):
-      (null)
-    }
-        <select onChange={(e)=>handleCheckbox(e)} name="type" className="block appearance-none m-5 w-full bg-gray-200 border border-gray-200 text-mycolor py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
-              <option value={data.valueType} >{data.valueType}</option>
+        <select onChange={(e)=>handleCheckbox(e)} name="type" className="block appearance-none m-2 w-full bg-gray-200 border border-gray-200 text-mycolor py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" id="grid-state">
+              <option value={data.valueType.length>11? 'checkbox':data.valueType} >{data.valueType.length>11? 'checkbox':data.valueType}</option>
               <option value={"Textaria"} >Paragraph</option>
               <option value={"input"} >text</option>
               <option value={"checkbox"} >checkbox</option>

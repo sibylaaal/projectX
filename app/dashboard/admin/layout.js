@@ -5,13 +5,13 @@ import dynamic from 'next/dynamic';
 import { useDispatch, useSelector } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { useEffect } from 'react';
+import  {Toggle}   from '../../componenets/redux/actions/SidebarActions';
 
 
 const Aside = dynamic(() => import('../../componenets/home/aside'));
 const Header = dynamic(() => import('../../componenets/home/header'));
-const Toggle = dynamic(() => import('../../componenets/redux/actions/SidebarActions'));
 const User = dynamic(() => import('lucide-react'));
-const login = dynamic(() => import('../../componenets/redux/actions/AuthActions'));
+import {login} from  '../../componenets/redux/actions/AuthActions';
 
 const ProtectedLayout = ({ children }) => {
 

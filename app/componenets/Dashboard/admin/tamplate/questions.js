@@ -2,12 +2,18 @@
 'use client'
 
 import { useEffect, useState } from "react";
-import SuccessAlert from "../../../successalert";
 import Skeleton from "../../../../componenets/skeleton"
+import SuccessAlert from "../../../successalert";
 
-import ReactQuill from 'react-quill';
+import SunEditor from "suneditor-react";
+import "suneditor/dist/css/suneditor.min.css";
+/** 
+ * import ReactQuill from 'react-quill';
 
 import 'react-quill/dist/quill.snow.css';
+ * 
+*/
+
 
 export default function Questions(props){
  const [Questions, setQuestions] = useState([])
@@ -17,27 +23,60 @@ export default function Questions(props){
 const [TextDoc, setTextDoc] = useState('');
 const [checkbox, setcheckbox] = useState(false);
 const [colomns, setcolomns] = useState(1);
-const [formData, setFormData] = useState([]); // State to manage form data
+const [formData, setFormData] = useState({ choice: '', newRelatedText: '' }); 
+const [assignechoices, setassignechoices] = useState(false);
+const [Choices, setChoices] = useState(false);
+const [CheckChoices, setCheckChoices] = useState([]);
+const [update, setupdate] = useState(false);
+const [content, setcontent] = useState(null);
 
-const addRow = (e) => {
-  e.preventDefault()
-  // Add a new row to the form data
-  setFormData([...formData, { choice: '', relatedTexte: '' }]);
+const handleInputChange = (e) => {
+  const { name, value } = e.target;
+
+  setFormData((prevData) => ({
+    ...prevData,
+    [name]: value,
+  }));
 };
 
-const handleInputChange = (index, fieldName, value) => {
-  // Update the form data when an input field changes
-  const updatedData = [...formData];
-  updatedData[index][fieldName] = value;
-  setFormData(updatedData);
+const Sorting = (value) => {
+  const newValue = value.replace(/checkbox\//g, ''); // Remove "checkbox/" from the string
+
+  const elements = newValue.split('/'); // Split the string into individual elements
+
+  const objectsArray = [];
+  const objectSize = 3; // Each object has 3 properties: id, choice, relatedText
+
+  for (let i = 0; i < elements.length; i += objectSize) {
+    // Check if there are enough elements to create an object
+    if (i + objectSize <= elements.length) {
+      const obj = {
+        id: elements[i],
+        choice: elements[i + 1],
+        relatedText: elements[i + 2],
+      };
+      objectsArray.push(obj);
+      setCheckChoices(objectsArray)
+    }
+  }
+
+  // Output each object in a readable format
+  objectsArray.forEach(obj => {
+    console.log(obj); // Output individual objects
+  });
+
+  // Or, to display the entire array as a JSON string
+  console.log(JSON.stringify(objectsArray));
+
+  // setCheckChoices(objectsArray); // Assuming setCheckChoices is a function to handle the result
 };
 
-const removeRow = (index,e) => {
-  e.preventDefault()
-  const updatedData = [...formData];
-  updatedData.splice(index, 1);
-  setFormData(updatedData);
-};
+// Example usage:
+
+
+
+
+
 
 const handleCheckbox=(e)=>{
 
@@ -51,14 +90,8 @@ if(e.target.value==='checkbox'){
 }
 
 
-const increcolomns=(e)=>{
-  e.preventDefault()
-  setcolomns((prev)=>prev+1)
-}
-const Decrecolomns=(e)=>{
-  e.preventDefault()
-  setcolomns((prev)=>prev-1)
-}
+
+
 
 
 
@@ -70,7 +103,6 @@ const Decrecolomns=(e)=>{
   Texte:'',
 
  });
- const [text, settext] = useState(false);
  
  const fetchTamplates = () => {
   fetch(`http://localhost:8081/api/admin/find_questions_by_template/${props.TemplateId}`)
@@ -96,7 +128,6 @@ const handleSubmit = (e) => {
   e.preventDefault();
 
 
-if(formData.length<=0){
     fetch(`http://localhost:8081/api/admin/create_question/${props.TemplateId}`, {
     
     method: 'POST',
@@ -124,7 +155,6 @@ if(formData.length<=0){
         valueType:e.target.type.value,
         template:{id:props.TemplateId},
         texte:TextDoc,
-        checkbox:formData
       })
          setselectedId({  id:null,
           questionText:"",
@@ -135,50 +165,67 @@ if(formData.length<=0){
         })
          fetchTamplates()
     });
-}else{
-  fetch(`http://localhost:8081/api/admin/create-question-with-choices/${props.TemplateId}`, {
 
-  method: 'POST',
-  body: JSON.stringify({
-    
-    questionText: e.target.question.value,
-    valueType:e.target.type.value,
-    description:e.target.Description.value,
-    descriptionDetails:e.target.DescriptionDetails.value,
-
-          texte:TextDoc,
-    choices:formData,
-   }),
-  headers: {
-    'Content-Type': 'application/json',
-  },
-})
-  .then((res) => res.json())
-  .then((res) => {
-    console.log(res);
-    setAdded(true)
-    setAdd(false)
-    console.log({
-      questionText: e.target.question.value,
-      valueType:e.target.type.value,
-      template:{id:props.TemplateId},
-      texte:TextDoc,
-      checkbox:formData
-    })
-       setselectedId({  id:null,
-        questionText:"",
-        valueType:"",
-        template:{id:0},
-        Texte:'',
-     
-      })
-       fetchTamplates()
-  });
-}
 
 
 };
 
+
+const handlechoices = (e) => {
+  e.preventDefault();
+
+
+    fetch(`http://localhost:8081/api/admin/add-choice-question/${selectedId.id}`, {
+    
+    method: 'POST',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => res.text())
+    .then((res) => {
+      setAdded(true)
+      setassignechoices(false)
+      console.log({
+        formData
+      })
+      
+         fetchTamplates()
+    });
+
+
+
+};
+const updatechoices = (e) => {
+  e.preventDefault();
+
+
+    fetch(`http://localhost:8081/api/admin/update-choice/${selectedId.id}/${selectedId.idchoice}`, {
+    
+    method: 'PUT',
+    body: JSON.stringify(formData),
+    headers: {
+      'Content-Type': 'application/json',
+    },
+  })
+    .then((res) => res.text())
+    .then((res) => {
+
+
+      setassignechoices(false)
+      console.log({
+        formData
+      })
+       setupdate(false)
+      
+         fetchTamplates()
+         props.edited(true)
+    });
+
+
+
+};
 
 const deleteQuestion = (id) => {
   fetch(`http://localhost:8081/api/admin/delete_question/${id}`, {
@@ -201,41 +248,7 @@ const deleteQuestion = (id) => {
 
 
 
-const modules = {
-  toolbar: [
-    [{ 'header': '1' }, { 'header': '2' }],
 
-    ['bold', 'italic', 'underline'],
-    [{ 'list': 'ordered' }, { 'list': 'bullet' }],
-    ['link', 'image'],
-    ["blockquote", "code-block"],
-
-    [{ 'table': 'table' }],
-    ["formula", "table"],
-    [{ 'align': [] }], // Add alignment options to the toolbar
-
-
-
-  ],
-};
-
-
-const formats = [
-  'header',
-  'bold',
-  'italic',
-  'underline',
-  'list',
-  'bullet',
-  'link',
-  'image',
-  'table',
-  'blockquote',
-  'code-block',
-  'align', // Add alignment format
-
-  
-];
 
 
 const handleChange = (value) => {
@@ -254,7 +267,7 @@ const handleChange = (value) => {
 
 
   {
-    !Add? (         <div className="bg-white  p-5">
+    !Add&&!assignechoices&&!Choices&&!update&&!content? (         <div className="bg-white  p-5">
                 <div className="flex">
         <div className="flex aling-center   mt-5 mb-1 ">
         <p className="text-2xl text-gray-500 font-semibold m-4">Questions  </p>
@@ -291,12 +304,11 @@ const handleChange = (value) => {
   <div
   className=" p-5  w-full whitespace-normal break-words rounded-lg border border-blue-gray-50 bg-white p-4 font-sans text-sm font-normal text-blue-gray-500 shadow-lg shadow-blue-gray-500/10 focus:outline-none"
 > 
-<h1 className="text-xl font-semibold text-gray-500">Content view</h1>
 
 
 
 <div className="flex rounded-full justify-end ">
-<button className="text-mycolor   sm:p-2"  onClick={() => {
+<button className=" ext-white bg-mycolor p-1 rounded-md ml-2   sm:p-2 "  onClick={() => {
       props.setid(qst.id)
       props.setCurentQuestion({
     id:qst.id
@@ -306,25 +318,93 @@ const handleChange = (value) => {
 }}
 
             
-    ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 ml-3 text-mycolor">
+    ><svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 text-white">
     <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
   </svg>
   </button>
   
-  <button onClick={()=>deleteQuestion(qst.id)}  className="text-mycolor  sm:p-2">
-     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 delete text-mycolor">
+  <button onClick={()=>deleteQuestion(qst.id)}  className="ext-white bg-mycolor p-1 rounded-md ml-2   sm:p-2">
+     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-white">
   <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
 </svg>
   </button>
+  {
 
+    qst.valueType=='checkbox'&&
+    <button className="text-white bg-mycolor p-2 rounded-md ml-2   sm:p-2"  onClick={() => {
+      setselectedId({
+        ...selectedId,
+    id:qst.id
+      })
+ setassignechoices(true);
+}}
+
+            
+    >
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+  </button>
+ }
+
+{
+  qst.valueType.length>10&&  (
+  
+  <>
+ <button className="text-white bg-mycolor p-2 rounded-md ml-2 mr-2  sm:p-2"  onClick={() => {
+  Sorting(qst.valueType)
+  setselectedId({
+    ...selectedId,
+id:qst.id
+  })
+ setChoices(true);
+}}
+
+            
+    >
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+  <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+</svg>
+  </button>
+  
+  
+  <button className="text-white bg-mycolor p-2 rounded-md "  onClick={() => {
+
+    setassignechoices(true);
+   }}>
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
+</svg>
+     </button> 
+     </>
+     )
+
+}
+
+  
+  
+  
  </div>
 
- <div className=" p-10  ">
+ <div className=" p-20  text-center ">
 
 
 {
   qst.Texte!=''? 
-  (<div className="ql-editor relative" dangerouslySetInnerHTML={{ __html: qst.texte }} />
+  (       <button className="text-white bg-mycolor p-2 rounded-md ml-2 mr-2 flex col-1 justify-center w-full sm:p-2"  onClick={() => {
+
+   setcontent(qst.texte);
+  }}
+  
+              
+      >
+      See The Content
+  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+    <path strokeLinecap="round" strokeLinejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z" />
+    <path strokeLinecap="round" strokeLinejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+  </svg>
+    </button>        /**<div className="ql-editor relative " dangerouslySetInnerHTML={{ __html: qst.texte }} /> */ 
 )
   :
   (<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-20 h-20">
@@ -353,7 +433,7 @@ const handleChange = (value) => {
       className="center relative inline-block select-none whitespace-nowrap rounded-full bg-mycolor py-1 px-2 align-baseline font-sans text-xs font-medium capitalize leading-none tracking-wide text-white"
       
     >
-      <div className="mt-px">{qst.valueType}</div>
+      <div className="mt-px">{qst.valueType.slice(0,8)}</div>
     </div>
   </div>
 
@@ -503,7 +583,7 @@ const handleChange = (value) => {
     <>
     <button   onClick={()=>props.questionss(false)}          className={`block w-full rounded-xl bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
     >cancel</button>
-    <button             className={`block w-full rounded-xl bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
+    <button     onClick={()=>props.questionss(false)}           className={`block w-full rounded-xl bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
     >save</button>
     </> 
     
@@ -568,71 +648,42 @@ const handleChange = (value) => {
 
 
       </div>
-      <div className="w-full  px-3 mb-6 md:mb-0">
+      <div className="w-full  ">
           <label className="block uppercase tracking-wide text-mycolor text-xs font-bold mb-2" htmlFor="grid-first-name">
             Your Content
           </label>
 
-          <ReactQuill name={"Texte"} onChange={handleChange} modules={modules} formats={formats} />
-  
-
-        </div>
-        {
-      checkbox?  (
-<div className="w-full  px-3 mb-6 md:mb-0">
-  <div className="flex align-center " >
-
-
-        <label className="block uppercase tracking-wide text-mycolor text-xs font-bold  mt-5" htmlFor="grid-first-name">
-          checkbox
-              
-     
-</label>
-   <button type="" onClick={(e)=>addRow(e)}        className={`block w-10 bg-mycolor  text-white  rounded-xl font-semibold  m-4`}
-    >+</button>
-    </div>
-          
-{
+             
 
 
 
-<>
-<div>
-      {formData.map((row, index) => (
-        <div key={index}>
-          <label>choice</label>
-          <input
-            name="choice"
-            type="text"
-            className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            value={row.choice}
-            onChange={(e) => handleInputChange(index, 'choice', e.target.value)}
-          />
-          <label>related Text</label>
-          <input
-            name="relatedTexte"
-            type="text"
-            className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
-            value={row.relatedTexte}
-            onChange={(e) => handleInputChange(index, 'relatedTexte', e.target.value)}
-          />
-          <button className="block w-10 bg-mycolor  text-white  rounded-xl font-semibold  m-4" onClick={(e) => removeRow(index,e)}>-</button>
-        </div>
-      ))}
-      {/* You can submit the form data as needed */}
-    </div>
-</>
- 
-
-}
+          <SunEditor
+setContents={TextDoc}   
 
 
+showToolbar={true}
+        onChange={handleChange}
+        setDefaultStyle="height: auto"
+        setOptions={{
+          buttonList: [
+            [
+              "bold",
+              "underline",
+              "italic",
+              "strike",
+              "list",
+              "align",
+              "fontSize",
+              "formatBlock",
+              "table",
+              "image"
+            ]
+          ]
+        }}
+      />
 
         </div>
 
-      ):
-      (null)
-    }
 
       <div className="flex flex-wrap -mx-3 mb-2">
      
@@ -677,6 +728,348 @@ const handleChange = (value) => {
 
         }
     
+
+{
+  assignechoices&&!update&&!Choices?
+  (
+
+
+
+    <form onSubmit={(e)=>handlechoices(e)} className="Ani">
+           
+    <div className='flex justify-center '>
+    <div className="w-full bg-white p-5 m-3 rounded-xl ">
+    <span className='text-3xl font-bold text-mycolor py-5 mb-5'>Assigne choices </span>
+<div className="flex flex-wrap -mx-3 mb-6 mt-10">
+
+  
+<div className="w-full  px-3 mb-6 md:mb-0">
+
+    
+{
+
+
+
+<>
+<div>
+  <div >
+    <label>choice</label>
+    <input
+      name="choice"
+      type="text"
+      className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      onChange={(e) => handleInputChange(e)}
+    />
+    <label>related Text</label>
+    <input
+      name="newRelatedText"
+      type="text"
+      className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+      onChange={(e) => handleInputChange(e)}
+    />
+   
+  </div>
+{/* You can submit the form data as needed */}
+</div>
+</>
+
+
+}
+
+<div className='flex space-between'>
+<>
+<button   onClick={()=>setassignechoices(false)}          className={`block rounded-xl w-full bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
+>cancel</button>
+<button             className={`block w-full rounded-xl bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
+>save
+</button>
+</> 
+
+</div>
+
+  </div>
+
+
+
+
+
+
+</div></div>
+</div></form>
+
+
+
+
+
+
+
+
+
+
+  )
+  :
+  (null)
+}
+
+{
+  Choices&&!assignechoices&&!update?
+  (
+<div className="relative  h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
+ <div className="flex h-fit w-full items-center justify-end rounded-t-2xl p-5">
+  
+    <button className="text-white bg-mycolor p-2 rounded-md mr-5  sm:p-2"  onClick={() => {
+
+ setChoices(false);
+}}
+
+            
+    >
+     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+</svg>
+
+  </button>
+
+  </div>
+  <div className="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
+ 
+
+
+
+
+
+
+
+
+    <div class="mx-auto w-full  ">
+            <header class="border-b border-gray-100 px-5 py-4">
+                <div class="font-semibold text-gray-800">Manage Choices</div>
+            </header>
+
+            <div class="overflow-x-auto p-3">
+                <table class="w-full table-auto">
+                    <thead class="bg-gray-50 text-xs font-semibold uppercase text-gray-400">
+                        <tr>
+                      
+                            <th class="p-2">
+                                <div class="text-left font-semibold">choice</div>
+                            </th>
+                            <th class="p-2">
+                                <div class="text-left font-semibold">related text</div>
+                            </th>
+                            <th class="p-2">
+                                <div class="text-left font-semibold">action</div>
+                            </th>
+                        </tr>
+                    </thead>
+
+                    <tbody class="divide-y divide-gray-100 text-sm">
+               {
+               CheckChoices.map(el=>(
+
+
+
+
+                <tr>
+                        
+                <td class="p-2">
+                    <div class="font-medium text-gray-800">{el.choice}</div>
+                </td>
+          
+                <td class="p-2">
+                    <div class="text-left font-medium text-green-500">{el.relatedText}</div>
+                </td>
+                <td class="p-2">
+                    <div class="flex justify-center">
+                        <button                   onClick={() => {
+      setselectedId({
+        ...selectedId,
+    valueType:''
+      })
+
+
+      
+    
+        fetch(`http://localhost:8081/api/admin/delete-choice/${selectedId.id}/${el.id}`, {
+          method: 'DELETE',
+        })
+          .then((response) => {
+            if (!response.ok) {
+              throw new Error(`HTTP error! Status: ${response.status}`);
+            }
+            return response;
+          })
+          .then(() => {
+            fetchTamplates();
+            setdeleted(true)
+            setChoices(false)
+          })
+          .catch((error) => {
+            console.error('Error:', error);
+          });
+
+}}     >
+  
+                            <svg class="h-8 w-8 rounded-full p-1 hover:bg-gray-100 hover:text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path>
+                            </svg>
+                        </button>
+                        <button className="text-white bg-mycolor p-1 rounded-md ml-2   sm:p-2"  onClick={() => {
+      setselectedId({
+        ...selectedId,
+        idchoice:el.id,
+    valueType:''
+      })
+ setupdate(true);
+ setassignechoices(false)
+ setChoices(false)
+}}
+
+            
+    >
+<svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+  <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L6.832 19.82a4.5 4.5 0 01-1.897 1.13l-2.685.8.8-2.685a4.5 4.5 0 011.13-1.897L16.863 4.487zm0 0L19.5 7.125" />
+</svg>
+
+  </button>
+                    </div>
+                </td>
+            </tr>
+               ))
+               }     
+                  
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  </div>
+</div>
+
+  )
+  :
+  (null)
+}
+{
+  !Choices&&!assignechoices&&update?
+  (
+    <div className="w-full overflow-x-scroll px-4 md:overflow-x-hidden">
+    <form onSubmit={(e)=>updatechoices(e)} className="Ani">
+             
+             <div className='flex justify-center '>
+             <div className="w-full bg-white p-5 m-3 rounded-xl ">
+             <span className='text-3xl font-bold text-mycolor py-5 mb-5'>Update choices </span>
+         <div className="flex flex-wrap -mx-3 mb-6 mt-10">
+         
+           
+         <div className="w-full  px-3 mb-6 md:mb-0">
+         
+             
+         {
+         
+         
+         
+         <>
+         <div>
+           <div >
+             <label>choice</label>
+             <input
+               name="choice"
+               type="text"
+               className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+               onChange={(e) => handleInputChange(e)}
+             />
+             <label>related Text</label>
+             <input
+               name="newRelatedText"
+               type="text"
+               className="appearance-none block w-full bg-gray-200 text-mycolor border  rounded py-3 px-4 mb-3 leading-tight focus:outline-none focus:bg-white"
+               onChange={(e) => handleInputChange(e)}
+             />
+            
+           </div>
+         {/* You can submit the form data as needed */}
+         </div>
+         </>
+         
+         
+         }
+         
+         <div className='flex space-between'>
+         <>
+         <button   onClick={()=>setupdate(false)}          className={`block rounded-xl w-full bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
+         >cancel</button>
+         <button             className={`block w-full rounded-xl bg-mycolor mt-4 py-2 text-white font-semibold mb-2 m-2`}
+         >save
+         </button>
+         </> 
+         
+         </div>
+         
+           </div>
+         
+         
+         
+         
+         
+         
+         </div></div>
+         </div></form>
+    </div>
+
+  )
+  :
+  (null)
+}
+{
+
+!Choices&&!assignechoices&&!update&&content?
+(
+
+<div className="relative  h-[430px] w-full flex-col rounded-[10px] border-[1px] border-gray-200 bg-white bg-clip-border shadow-md shadow-[#F3F3F3] dark:border-[#ffffff33] dark:!bg-navy-800 dark:text-white dark:shadow-none">
+ <div className="flex h-fit w-full items-center justify-end rounded-t-2xl p-5">
+  
+    <button className="text-white bg-mycolor p-2 rounded-md mr-5  sm:p-2"  onClick={() => {
+ setcontent(null);
+}} >
+     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+  <path stroke-linecap="round" stroke-linejoin="round" d="M18.75 19.5l-7.5-7.5 7.5-7.5m-6 15L5.25 12l7.5-7.5" />
+</svg>
+
+  </button>
+
+  </div>
+
+  <div className="p-10">
+   <div className="ql-editor relative " dangerouslySetInnerHTML={{ __html: content }} /> 
+  </div>
+</div>
+):
+(null)
+
+}
+
+
+
+
         </>
     )
 }

@@ -25,7 +25,7 @@ export default function Categories(props){
       props.canceladded(false);
       props.deleteds(false)
       props.uodateds(false)
-    }, 2000);
+    }, 1000);
   }, [data]);
 
   const deleteCategory = (id) => {
